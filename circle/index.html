@@ -94,10 +94,10 @@ var p=brd.create('point',[0,0],{name:'A'});
 
 circle1=brd.create("circle",[p,3],{strokewidth:2});
 
-var show_radius = brd.create('checkbox', [4, 4, 'Show Radius']);
-var show_secant = brd.create('checkbox',[4,3.5,'Show Secant']);
+var show_radius = brd.create('checkbox', [4, 4.7, 'Show Radius']);
+var show_secant = brd.create('checkbox',[4,4,'Show Secant']);
 var show_chord = brd.create('checkbox',[4,3,'Show Chord']);
-var show_tangent=brd.create('checkbox',[4,2.5,'Show Tangent']);
+var show_tangent=brd.create('checkbox',[4,2,'Show Tangent']);
 
 show_radius.setAttribute({fixed:true});
 show_secant.setAttribute({fixed:true});
@@ -135,7 +135,7 @@ JXG.addEvent(show_tangent.rendNodeCheckbox,'change',function(){
 if(this.Value()){
     var g1 = brd.create('glider', [1.88,-2.34, circle1],{name:"glider1"});
     var t1 = brd.create('tangent', [g1],{name:"tangent"});
-    var another_tangent=brd.create('checkbox',[4,2,"show tangent 2"],{name:"checkbox1"});
+    var another_tangent=brd.create('checkbox',[4,1.5,"show tangent 2"],{name:"checkbox1"});
     another_tangent.setAttribute({fixed:true});
    
 
@@ -170,7 +170,7 @@ JXG.addEvent(show_chord.rendNodeCheckbox,'change',function(){
         var chord_point_1=brd.create('point',[-1.43,2.64],{name:'E'});
         var chord_point_2=brd.create('point',[3,0],{name:'F'});
         var chord=brd.create('segment',[chord_point_1,chord_point_2],{name:'chord'});
-        var diameter=brd.create('checkbox',[6,3,'Diameter'],{name:'diameter'});
+        var diameter=brd.create('checkbox',[4,2.5,'Diameter'],{name:'diameter'});
         diameter.setAttribute({fixed:true});
     }
 
