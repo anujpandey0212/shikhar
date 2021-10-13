@@ -1,19 +1,37 @@
 img{
-    margin-left: 100px;
+    margin-left: 85px;
 }
 #heading{
-    font-size: 22px;
+    font-size: 18px;
        font-family: 'Montserrat', sans-serif;
-       margin-left: 50px;
+       margin-left: 20px;
        margin-right: 50px;
        margin-top: 40px;
        color: white;
    }
    .defination{
-       font-size: 18px;
+       font-size: 14px;
        font-family: 'Montserrat', sans-serif;
-       margin-left: 50px;
+       margin-left: 20px;
        margin-right: 50px;
        margin-top: 40px;
        color: white;
+   }
+   #jxgbox{
+   margin-left: 0px;
+   margin-right: 0px;
+    width: 350px;
+    height: 250px;
+}
+.line{
+    width: 200px;
+    margin-left: 20px;
+}
+h1,h2{
+    font-family: 'Montserrat', sans-serif;
+    margin-left: 20px;
+    color: white;
+   }
+   h1{
+       font-size: 25px;
    }
