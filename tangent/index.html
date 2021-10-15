@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #jxgbox{
+            height:600px;
+            width: 800px;
+            background-color: #bcd5e6;
+        }
+        .myFont {
+    font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius:5px;
+}
+
+.myFontHigh {
+    font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+    border: 1px dashed black;
+    padding: 5px;
+    border-radius:5px;
+}
+
+
+.myDefaultFont {
+    border: 1px solid black;
+    padding: 1px;
+    border-radius:3px;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+}
+
+/* Different color for parenthesis */
+#par {
+    font-size:120%;
+    color:blue;
+}
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div id="jxgbox" class="jxgbox"></div>
+</body>
+<script type="text/javascript" charset="UTF-8"
+ src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script>
+    var brd;
+    JXG.Options.text.useMathJax = true;
+    brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-5,5,5,-5], axis:true, showNavigation:false, showCopyright:false,keepAspectRatio:true});
+    var point_a=brd.create('point',[0,0],{name:'A'});
+    var circle=brd.create('circle',[point_a,3],{name:'circle'});
+    var glider_1=brd.create('glider',[1.50,2.60,circle],{name:"glider_1"});
+    var tangent=brd.create('tangent',[glider_1],{name:"tangent"});
+    var box = brd.create('checkbox',[4,2,'box']);
+
+    // JXG.Options.text.cssClass = 'myDefaultFont';
+
+
+    // brd.options.text.cssClass = 'myDefaultFont';
+
+    // JXG.Options.text.highlightCssClass = 'myDefaultFont';
+
+
+var txt =brd.create('text', [1,2, "<span id=\"par\">l</span> Hello world <span >l</span>"], 
+          {
+            cssClass:'myFont', strokeColor:'red',
+            highlightCssClass: 'myFontHigh',
+            fontSize:20
+          });
+
+var p = brd.create('point', [0,0]);
+    // var glider_=brd.create('glider',[6,0,glider_1]);
+    // var glider_2=brd.create('glider',[1.48,-2.61]);
+</script>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #jxgbox{
+            height: 700px;
+            width: 1500px;
+            margin-left: 10px;
+            margin-top: 15px;
+        }
+        .heading{
+            color: #2818d9;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div id="jxgbox" class="jxgbox"></div>
+</body>
+<script type="text/javascript" charset="UTF-8"
+ src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script>
+
+//initializing board
+var brd;
+brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-5,5,15,-5], axis:true, showNavigation:false, showCopyright:false,keepAspectRatio:true});
+
+//creating center
+var point_o = brd.create('point',[0,0],{name:'O'});
+point_o.setAttribute({fixed:true});
+
+//creating points on circle
+var circle = brd.create('circle',[point_o,3],{name:'circle'});
+
+//creating points on circle
+var point_p=brd.create('glider',[0.82,2.88,circle],{name:'P'});
+var point_b=brd.create('glider',[2.50,-1.66,circle],{name:'B'});
+var point_a=brd.create('point',[-2.34,-1.88],{name:'A'});
+point_a.setAttribute({fixed:true});
+
+//creating the lines
+var line_ap=brd.create('segment',[point_a,point_p],{name:'AP'});
+line_ap.setLabel('AP');
+var line_pb=brd.create('segment',[point_p,point_b],{name:'BP'});
+line_pb.setLabel('BP');
+var line_ab=brd.create('segment',[point_a,point_b],{name:'AB'});
+line_ab.setLabel('AB');
+
+//creating the angle
+globalThis.angle_apb=brd.create('angle',[line_ap,line_pb,-1,1],{name:function(){
+    return JXG.Math.Geometry.trueAngle(point_a,point_p,point_b).toFixed(1)+'°';
+}});
+console.log(angle_apb.name());
+
+//creating variable to call steps
+var step=0;
+
+//creating the buttons
+brd.create('text', [14, -4, "<button type=\"button\" id=\"next\" class=\"btn btn-primary\" onclick=\"nextstep()\">Next Step > > </button>"]).setAttribute({fixed:true});
+brd.create('text', [-4, -4, "<button type=\"button\" id=\"previous\" class=\"btn btn-primary\" onclick=\"previousstep()\"> < < Previous Step</button>"]).setAttribute({fixed:true});
+
+//creating step0 text
+var t1=brd.create('text',[6.43,4.25,"Angle inscribed by ∠APB will always remian constant"],{fontSize:22, cssClass:'heading',color:''});
+var t2=brd.create('text',[3.5,3.66,"Move point P to see angle remians same throughout the circle and than move angle B to see angle changing"],{fontSize:18});
+t1.setAttribute({fixed:true});
+t2.setAttribute({fixed:true});
+globalThis.printed=false;
+
+//function to tell what will happen after click
+function nextstep(){
+
+    if(step<4){
+        step++;
+
+        if(step==1){
+        step_1();
+        }
+        else if(step==2){
+            step_2();
+        }
+        else if(step==3){
+            step_3();
+        }
+        else if(step==4){
+            step_4();
+        }
+    }
+}
+
+//function to go back in the preceeding stage
+function previousstep(){
+    if(step>0){
+        step--;
+
+        if(step==0){
+            brd.removeObject('seg1');
+            brd.removeObject('seg2');
+            brd.removeObject('seg3');
+            brd.removeObject(angle_oap);
+            brd.removeObject(angle_apo);
+            brd.removeObject(angle_aon);
+            brd.removeObject([t3,t4]);
+            globalThis.angle_apb=brd.create('angle',[line_ap,line_pb,-1,1],{name:function(){
+            return JXG.Math.Geometry.trueAngle(point_a,point_p,point_b).toFixed(1)+'°';
+            }});
+        }
+        else if(step==1){
+            brd.removeObject('line_ob');
+            brd.removeObject([angle_opb,angle_pbo,angle_nob]);
+            brd.removeObject([t5,t6]);
+        }
+        else if(step==2){
+            brd.removeObject([t7,t8]);
+            point_b.setAttribute({fixed:false});
+            printed=false;
+        }
+        else if(step==3){
+            brd.removeObject([t9,t10]);
+            brd.removeObject([point_c,point_d]);
+            brd.removeObject([line_da,line_db,line_ca,line_cb,line_ao,line_bo]);
+            brd.removeObject([angle_adb,angle_apb,angle_acb,angle_aob]);
+            globalThis.angle_apb=brd.create('angle',[line_ap,line_pb,-1,1],{name:function(){
+            return JXG.Math.Geometry.trueAngle(point_a,point_p,point_b).toFixed(1)+'°';
+            }});
+            printed=true;
+            step_1();
+            setTimeout(function(){
+                step_2();
+                step_3();
+            },1000);
+        }
+    }
+   
+}
+
+//functions to render steps
+
+ function step_1(){
+    console.log(printed);
+    document.getElementById("next").disabled = true;
+    document.getElementById("previous").disabled = true;
+
+    //remving initial angle
+    var angle_name=angle_apb.name();
+    brd.removeObject(angle_apb);
+
+    //creating animating line
+    
+    var vector1=new vector(point_p.X().toFixed(2),point_p.Y().toFixed(2));
+    var length=vector1.length()/100;
+    var initial_distance1=length;
+    vector1.normalize();
+
+    var vector2=new vector(point_a.X().toFixed(2),point_a.Y().toFixed(2));
+    var length2=vector2.length()/100;
+    var initial_distance2=length2;
+    vector2.normalize();
+
+    globalThis.point_n=brd.create('point',[0.26,-2.99],{name:'N'});
+    point_n.setAttribute({fixed:true});
+
+    var vector3=new vector(point_n.X().toFixed(2),point_n.Y().toFixed(2));
+    var length3=vector3.length()/100;
+    var initial_distance3=length3;
+    vector3.normalize();
+
+    var i=0
+    var my=setInterval(function(){
+        
+        brd.removeObject('point1');
+        brd.removeObject('seg1');
+        brd.removeObject('point2');
+        brd.removeObject('seg2');
+        brd.removeObject('point3');
+        brd.removeObject('seg3');
+        
+        var new_point_x=point_p.X().toFixed(2)-(vector1.x*initial_distance1);
+        var new_point_y=point_p.Y().toFixed(2)-(vector1.y*initial_distance1);
+        var random_point=brd.create('point',[new_point_x,new_point_y],{name:'point1',Label:false});
+        var line_po=brd.create('segment',[random_point,point_p],{name:'seg1'});
+
+        var new_point_x_2=point_a.X().toFixed(2)-(vector2.x*initial_distance2);
+        var new_point_y_2=point_a.Y().toFixed(2)-(vector2.y*initial_distance2);
+        var random_point_2=brd.create('point',[new_point_x_2,new_point_y_2],{name:'point2',Label:false});
+        var line_ao=brd.create('segment',[random_point_2,point_a],{name:'seg2'});
+
+        var new_point_x_3=point_n.X().toFixed(2)-(vector3.x*initial_distance3);
+        var new_point_y_3=point_n.Y().toFixed(2)-(vector3.y*initial_distance3);
+        var random_point_3=brd.create('point',[new_point_x_3,new_point_y_3],{name:'point3',Label:false});
+        var line_no=brd.create('segment',[random_point_3,point_n],{name:'seg3',dash:2});
+        
+        initial_distance1=initial_distance1+length;
+        initial_distance2=initial_distance2+length2;
+        initial_distance3=initial_distance3+length3;
+
+        
+        i++;
+        if(i==100){
+
+            document.getElementById("next").disabled = false;
+            document.getElementById("previous").disabled = false;
+
+            clearInterval(my);
+
+            brd.removeObject('point1');
+            brd.removeObject('seg1');
+            brd.removeObject('point2');
+            brd.removeObject('seg2');
+            brd.removeObject('point3');
+            brd.removeObject('seg3');
+
+            var line_po=brd.create('segment',[point_o,point_p],{name:'seg1'});
+            var line_ao=brd.create('segment',[point_o,point_a],{name:'seg2'});
+            var line_no=brd.create('segment',[point_o,point_n],{name:'seg3',dash:2});
+
+            globalThis.angle_oap=brd.create('angle',[function(){
+                if(JXG.Math.Geometry.trueAngle(point_o,point_a,point_p).toFixed(1)<=90)
+                {
+                    return [point_o.X(),point_o.Y()];
+                }
+                else{
+                    return [point_p.X(),point_p.Y()];
+                }
+            },point_a,function(){
+                if(JXG.Math.Geometry.trueAngle(point_o,point_a,point_p).toFixed(1)<=90)
+                {
+                    return [point_p.X(),point_p.Y()];
+                }
+                else{
+                    return [point_o.X(),point_o.Y()];
+                }
+            }],{name:"α"});
+
+            globalThis.angle_apo=brd.create('angle',[function(){
+                if(JXG.Math.Geometry.trueAngle(point_a,point_p,point_o).toFixed(1)<=90){
+                    return [point_a.X(),point_a.Y()];
+                }
+                else{
+                    return [point_o.X(),point_o.Y()]
+                }
+            },point_p,function(){
+                if(JXG.Math.Geometry.trueAngle(point_a,point_p,point_o).toFixed(1)<=90){
+                    return [point_o.X(),point_o.Y()];
+                }
+                else{
+                    return [point_a.X(),point_a.Y()]
+                }
+            }],{name:"α"});
+
+            globalThis.angle_aon=brd.create('angle',[point_a,point_o,point_n],{name:'2α'});
+
+            //creating text for step1
+            console.log(printed);
+            if(printed==false){
+                globalThis.t3=brd.create('text',[4.5,2.48,'<b>Step1 - </b>'],{fontSize:18,cssClass:'heading',color:''})
+                globalThis.t4=brd.create('text',[5.5,1.9,'• Since PO = Ao <br>• ∠APO = ∠PAO = α <br>• By external angle property <br>• ∠AON = 2α'],{fontSize:18});
+                t3.setAttribute({fixed:true});
+                t4.setAttribute({fixed:true});
+            } 
+        }
+    },10);
+ }
+
+function step_2(){
+    var line_ob=brd.create('segment',[point_b,point_o],{name:'line_ob'});
+    globalThis.angle_opb=brd.create('angle',[function(){
+        if(JXG.Math.Geometry.trueAngle(point_o,point_p,point_b).toFixed(1)<=90){
+            return [point_o.X(),point_o.Y()];
+        }
+        else{
+            return [point_b.X(),point_b.Y()];
+        }
+    },point_p,function(){
+        if(JXG.Math.Geometry.trueAngle(point_o,point_p,point_b).toFixed(1)<=90){
+            return [point_b.X(),point_b.Y()];
+        }
+        else{
+            return [point_o.X(),point_o.Y()];
+        }
+    }],{radius:1.2,name:"β"});
+
+    globalThis.angle_pbo=brd.create('angle',[function(){
+        if(JXG.Math.Geometry.trueAngle(point_p,point_b,point_o).toFixed(1)<=90){
+            return [point_p.X(),point_p.Y()];
+        }
+        else{
+            return [point_o.X(),point_o.Y()];
+        }
+    },point_b,function(){
+        if(JXG.Math.Geometry.trueAngle(point_p,point_b,point_o).toFixed(1)<=90){
+            return [point_o.X(),point_o.Y()];
+        }
+        else{
+            return [point_p.X(),point_p.Y()];
+        }
+    }],{name:"β"});
+
+    globalThis.angle_nob=brd.create('angle',[function(){
+        if(JXG.Math.Geometry.trueAngle(point_n,point_o,point_b).toFixed(1)<=180){
+            return [point_n.X(),point_n.Y()];
+        }
+        else{
+            return [point_b.X(),point_b.Y()];
+        }
+    },point_o,function(){
+        if(JXG.Math.Geometry.trueAngle(point_n,point_o,point_b).toFixed(1)<=180){
+            return [point_b.X(),point_b.Y()];
+        }
+        else{
+            return [point_n.X(),point_n.Y()];
+        }
+    }],{radius:1.2,name:"2β"});
+
+    if(printed==false){
+        globalThis.t5=brd.create('text',[11,2.5,'<b>Step2 - </b>'],{fontSize:18,cssClass:'heading',color:''});
+        globalThis.t6=brd.create('text',[12,1.9,'• Simillarly in ▲POB<Br>• ∠OPB=∠PBO=β<br>•By external angle property<br>∠NOB=2β'],{fontSize:18});
+        t5.setAttribute({fixed:true});
+        t6.setAttribute({fixed:true});
+    }
+
+}
+
+function step_3(){
+    if(printed==false){
+        globalThis.t7=brd.create('text',[4.5,-1,'<b>Step3 - </b>'],{fontSize:18,cssClass:'heading',color:''});
+        globalThis.t8=brd.create('text',[5.5,-1.75,'• ∠AOB=2(α+β)<br>• ∠APB=α+β<br>• ∠APB=∠AOB/2<br>• if we keep AB fixed<br>• ∠APB remains same'],{fontSize:18}); 
+        t7.setAttribute({fixed:true});
+        t8.setAttribute({fixed:true});
+    }
+    
+    point_b.setAttribute({fixed:true});
+
+}
+
+function step_4(){
+    
+    brd.removeObject("seg1");
+    brd.removeObject("seg2");
+    brd.removeObject("seg3");
+    brd.removeObject("line_ob");
+    brd.removeObject([angle_nob,angle_pbo,angle_opb,angle_aon,angle_apo,angle_oap,point_n]);
+
+    globalThis.point_c=brd.create('glider',[2.76,1.17,circle],{name:"C"});
+    globalThis.point_d=brd.create('glider',[-2.85,0.92,circle],{name:'D'});
+
+    globalThis.line_da=brd.create('segment',[point_a,point_d]);
+    globalThis.line_db=brd.create('segment',[point_b,point_d]);
+    globalThis.line_ca=brd.create('segment',[point_a,point_c]);
+    globalThis.line_cb=brd.create('segment',[point_b,point_c]);
+    globalThis.line_ao=brd.create('segment',[point_a,point_o],{dash:2});
+    globalThis.line_bo=brd.create('segment',[point_b,point_o],{dash:2});
+
+    globalThis.angle_adb=brd.create('angle',[function(){
+        if(JXG.Math.Geometry.trueAngle(point_a,point_d,point_b).toFixed(1)<=90){
+            return [point_a.X(),point_a.Y()];
+        }
+        else{
+            return [point_b.X(),point_b.Y()];
+        }
+    },point_d,function(){
+        if(JXG.Math.Geometry.trueAngle(point_a,point_d,point_b).toFixed(1)<=90){
+            return [point_b.X(),point_b.Y()];
+        }
+        else{
+            return [point_a.X(),point_a.Y()];
+        }
+    }],{name:"α"});
+    globalThis.angle_apb=brd.create('angle',[function(){
+        if(JXG.Math.Geometry.trueAngle(point_a,point_p,point_b).toFixed(1)<=90){
+            return [point_a.X(),point_a.Y()];
+        }
+        else{
+            return [point_b.X(),point_b.Y()];
+        }
+    },point_p,function(){
+        if(JXG.Math.Geometry.trueAngle(point_a,point_p,point_b).toFixed(1)<=90){
+            return [point_b.X(),point_b.Y()];
+        }
+        else{
+            return [point_a.X(),point_a.Y()];
+        }
+    }],{name:"α"});
+    globalThis.angle_acb=brd.create('angle',[function(){
+        if(JXG.Math.Geometry.trueAngle(point_a,point_c,point_b).toFixed(1)<=90){
+            return [point_a.X(),point_a.Y()];
+        }
+        else{
+            return [point_b.X(),point_b.Y()];
+        }
+    },point_c,function(){
+        if(JXG.Math.Geometry.trueAngle(point_a,point_c,point_b).toFixed(1)<=90){
+            return [point_b.X(),point_b.Y()];
+        }
+        else{
+            return [point_a.X(),point_a.Y()];
+        }
+    }],{name:"α"});
+    globalThis.angle_aob=brd.create('angle',[point_a,point_o,point_b],{name:"2α"});
+
+    globalThis.t9=brd.create('text',[11,-1,'<b>Step4 - </b>'],{fontSize:18,cssClass:'heading',color:''});
+    globalThis.t10=brd.create('text',[11.95,-1.27,'• if their were many points<br>∠ subtended by them will be equal'],{fontSize:18});
+    t9.setAttribute({fixed:true});
+    t10.setAttribute({fixed:true});
+    
+}
+
+class vector{
+    constructor(x=0,y=0){
+        this.x=x;
+        this.y=y;
+    }
+    multiplyScalar( scalar ) {
+
+    this.x *= scalar;
+    this.y *= scalar;
+
+    return this;
+
+    }
+    divideScalar( scalar ) {
+
+    return this.multiplyScalar( 1 / scalar );
+
+    }
+    length() {
+
+    return Math.sqrt( this.x * this.x + this.y * this.y );
+
+    }
+    normalize() {
+
+    return this.divideScalar( this.length() || 1 );
+
+    }
+}
+</script>
+</html>
