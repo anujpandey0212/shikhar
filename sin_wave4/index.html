@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+         #jxgbox{
+            height: 700px;
+            width: 1470px;
+            margin-left: 20px;
+            margin-top: 15px;
+        }
+    </style>
+    <title>sin wave</title>
+</head>
+<body>
+    <div id="jxgbox" class="jxgbox"></div>
+</body>
+<script type="text/javascript" charset="UTF-8"
+ src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script>
+//initializing the board
+var brd;
+
+
+brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-5,5,15,-5], axis:true, showNavigation:false, showCopyright:false,keepAspectRatio:true});
+var f = function(x){ return Math.sin(x); };
+var plot = brd.create('functiongraph',[f,function(){return -3;}, function(){return 6.28;}]);
+
+var a=brd.create('glider',[-3,0,plot]);
+var rot = brd.create('transform', [0.55,a], {type:'rotate'});
+rot.bindTo(plot);
+</script>
+</html>

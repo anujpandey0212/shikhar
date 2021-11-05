@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #jxgbox{
+            height: 700px;
+            width: 1500px;
+            margin-left: 10px;
+            margin-top: 15px;
+        }
+        .heading{
+            color: #2818d9;
+        } 
+    </style>
+    <title>Simulation 3</title>
+</head>
+<body>
+    <div id="jxgbox" class="jxgbox"></div>
+</body>
+<script type="text/javascript" charset="UTF-8"
+ src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script>
+
+//initializing
+var brd;
+brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-5,5,15,-5], axis:true, showNavigation:false, showCopyright:false,keepAspectRatio:true});
+
+//initializing circle 
+var center = brd.create('point',[0,0],{name:'O'});
+var circle = brd.create('circle',[center,3],{name:"circle"});
+center.setAttribute({fixed:true});
+
+//makings three movable points on center 
+var point_a=brd.create('glider',[0,-3,circle],{name:"A"});
+var point_b=brd.create('glider',[2.57,1.54,circle],{name:"B"});
+var point_p=brd.create('glider',[-2.25,1.98,circle],{name:"P"});
+
+//creating tangent
+var tangent=brd.create('tangent',[point_a],{name:"tangent"});
+
+//joining lines
+var line_ap=brd.create('segment',[point_a,point_p]);
+var line_ab=brd.create('segment',[point_a,point_b]);
+var line_bp=brd.create('segment',[point_b,point_p]);
+
+//creating invisible glider on tangent
+var invisible=brd.create('glider',[5,-3,tangent],{size:0,name:''});
+
+//creating angles
+var angle_bac=brd.create('nonreflexangle',[invisible,point_a,point_b]);
+
+//creating the buttons
+brd.create('text', [14, -4, "<button type=\"button\" id=\"next\" class=\"btn btn-primary\" onclick=\"nextstep()\">Next Step > > </button>"]).setAttribute({fixed:true});
+brd.create('text', [-4, -4, "<button type=\"button\" id=\"previous\" class=\"btn btn-primary\" onclick=\"previousstep()\"> < < Previous Step</button>"]).setAttribute({fixed:true});
+
+//writing initial text
+var heading = brd.create('text',[4.23,4.25,'This simulation will help you understand the proof of exterior angle property of circle'],{fontSize:22, cssClass:'heading',color:''});
+heading.setAttribute({fixed:true});
+
+//declaraing variable for step
+var step=0
+globalThis.printed=false;
+
+//next step
+function nextstep(){
+   
+    if(step<3){
+        step++;
+        if(step==1){
+            brd.removeObject([tangent,invisible,angle_bac]);
+            step_1();
+        }
+        else if(step==2){
+            brd.removeObject([angle_oab,angle_oba]);
+            step_2();
+        }
+        else if(step==3){
+            step_3();
+        }
+    }
+}
+
+//previous step
+function previousstep(){
+    if(step>0){
+        step--;
+        if(step==0){
+            brd.removeObject([line_oa,line_ob,angle_oab,angle_apb]);
+            brd.removeObject([t1,t2]);
+            globalThis.tangent=brd.create('tangent',[point_a],{name:"tangent"});
+            globalThis.invisible=brd.create('glider',[5,-3,tangent],{size:0,name:''});
+            globalThis.angle_bac=brd.create('nonreflexangle',[invisible,point_a,point_b]);
+
+        }
+        else if(step==1){
+            brd.removeObject([angle_aob,angle_apb]);
+            brd.removeObject([t3,t4]);
+            if(printed==false)
+            {
+                step_1();
+            }
+            printed=false;
+        }
+        else if(step==2){
+            brd.removeObject([angle_oab,angle_oba,angle_baq,tangent,invisible]);
+            brd.removeObject([t5,t6])
+        }
+    }
+}
+
+//creating functions for step
+
+function step_1(){
+    //creating two dash lines
+    globalThis.line_oa=brd.create('segment',[point_a,center],{dash:2});
+    globalThis.line_ob=brd.create('segment',[point_b,center],{dash:2})
+    
+    //creating angles
+    globalThis.angle_oab=brd.create('nonreflexangle',[center,point_a,point_b],{name:"α"});
+    globalThis.angle_oba=brd.create('nonreflexangle',[center,point_b,point_a],{name:"α"});
+
+    if(printed==false){
+        globalThis.t1=brd.create('text',[7.5,3.48,'<b>Step1 - </b>'],{fontSize:16,cssClass:'heading',color:''});
+        globalThis.t2=brd.create('text',[8.5,3.28,'• OA = OB<br>• Then ∠AOB = ∠BOA = α'],{fontSize:16});
+        t1.setAttribute({fixed:true});
+        t2.setAttribute({fixed:true});
+        printed=true;
+    }
+}
+
+function step_2(){
+
+    globalThis.angle_aob=brd.create('nonreflexangle',[point_a,center,point_b],{name:"π/-2α"});
+    globalThis.angle_apb=brd.create('nonreflexangle',[point_a,point_p,point_b],{name:"π/2-α"});
+
+    globalThis.t3=brd.create('text',[7.5,1.48,'<b>Step1 - </b>'],{fontSize:16,cssClass:'heading',color:''});
+    globalThis.t4=brd.create('text',[8.5,1.37,'• ∠AOB = π/-2α <br>• ∠APB = ∠AOB/2=π/2-α'],{fontSize:16});
+    t3.setAttribute({fixed:true});
+    t4.setAttribute({fixed:true});
+
+}
+
+function step_3(){
+
+    globalThis.tangent=brd.create('tangent',[point_a],{name:"tangent"});
+    
+    //creating invisible glider on tangent
+    globalThis.invisible=brd.create('glider',[5,-3,tangent],{name:'Q'});
+    invisible.setAttribute({fixed:true});
+
+    //creating angles
+    globalThis.angle_oab=brd.create('nonreflexangle',[center,point_a,point_b],{name:"α"});
+    globalThis.angle_oba=brd.create('nonreflexangle',[center,point_b,point_a],{name:"α"});
+    globalThis.angle_baq=brd.create('nonreflexangle',[point_b,point_a,invisible],{name:"π/2-α",radius:1.2});
+
+    globalThis.t5=brd.create('text',[7.5,-1,'<b>Step1 - </b>'],{fontSize:16,cssClass:'heading',color:''});
+    globalThis.t6=brd.create('text',[8.5,-1,'• ∠BAQ=90-α <br>• <b>Hence  ∠P= ∠BAQ</b>'],{fontSize:16});
+
+}
+</script>
+</html>
