@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        
+        #jxgbox{
+            height: 700px;
+            width: 1470px;
+            margin-left: 20px;
+            margin-top: 15px;
+            background-color: black;
+        }
+    </style>
+    <title>Simulation</title>
+</head>
+<body>
+    <div id="jxgbox" class="jxgbox"></div>
+</body>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>  
+	  
+
+<script type="text/javascript" charset="UTF-8"
+ src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script>
+    
+JXG.Options.text.useMathJax = true;
+
+var brd;
+brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-8,5,10,-5], axis:true, showNavigation:false, showCopyright:false,keepAspectRatio:true});
+// brd.suspendUpdate();
+xaxis = brd.create('axis', [[0,0],[1,0]]);
+xaxis.removeAllTicks();
+xticks = brd.create('ticks',[xaxis, 5], {
+    drawLabels: true,
+    strokeColor: '#F05454',
+    label: {
+        offset: [-4, -15],
+        strokeColor: 'white'
+    }
+});   
+
+yaxis = brd.create('axis', [[0,0],[0,1]]);
+yaxis.removeAllTicks();
+yticks = brd.create('ticks',[yaxis, 5], {
+    drawLabels: true,
+    strokeColor: '#F05454',
+    label: {
+        // offset: [0, -15],
+        strokeColor: 'white'
+    }
+}); 
+var n = brd.create('slider',[[-5,5],[4.5,5],[3,4,96]],{name:'n',snapWidth:1});
+
+var p0 = brd.create('point',[0,0],{strokeColor:'black',fillColor:'white',name:''});
+var p1 = brd.create('point',[4,0],{strokeColor:'black',fillColor:'white',name:''});
+var rot = brd.create('transform', [function() {return Math.PI*2.0/n.Value();},p0], {type:'rotate'});  // angle, rotation center
+var ptmp = brd.create('point',[0,0],{visible:false,withLabel:false});  // dummy point for the rotation
+var cOut = brd.create('curve',[[0],[0]],{fillColor:'#5e9abf',highlightFillColor:'#5e9abf',fillOpacity:1,highlightFillOpacity:1,strokeColor:'black',highlightStrokeColor:'black'});
+var circ = brd.create('circle',[p0,p1],{fillColor:'#fefd4c',highlightFillColor:'#fefd4c',fillOpacity:0.5,highlightFillOpacity:0.5,strokeColor:'black',highlightStrokeColor:'black'});
+var cIn = brd.create('curve',[[0,1,2],[0,1,2]],{fillColor:'#d769a3',highlightFillColor:'#d769a3',fillOpacity:1,highlightFillOpacity:1,strokeColor:'black',highlightStrokeColor:'black'});
+
+var tCirc = brd.create('text',[-5,-3.5,function(){
+    return 'Area of the circle = ' + (0.0625*circ.getRadius()*circ.getRadius()*Math.PI).toFixed(5);
+  }],{fontSize:20,strokeColor:"white"});
+  tCirc.setAttribute({fixed:true});
+var tIn = brd.create('text',[-5,-4.0,function(){
+    return 'Area of the inscribed ' +n.Value().toFixed(0)+ '-polygon = ' + (0.0625*n.Value()*circ.getRadius()*circ.getRadius()*Math.sin(Math.PI/n.Value())).toFixed(5);
+  }],{fontSize:20,strokeColor:"white"});
+  tIn.setAttribute({fixed:true});
+var tOut = brd.create('text',[-5,-4.5,function(){
+    return 'Area of the circumscribed  ' +n.Value().toFixed(0)+ '-polygon = ' + (0.0625*n.Value()*circ.getRadius()*circ.getRadius()*Math.tan(Math.PI/n.Value())).toFixed(5);
+  }],{fontSize:20,strokeColor:"white"});
+  tOut.setAttribute({fixed:true});
+
+
+cIn.updateDataArray = function() {
+  var i, len = n.Value();
+  this.dataX = [p0.X()+circ.getRadius()];
+  this.dataY = [p0.Y()];
+  ptmp.setPositionDirectly(JXG.COORDS_BY_USER, [p0.X()+circ.getRadius(), p0.Y()]);
+  for (i=0;i<len;i++) {
+    rot.applyOnce(ptmp);
+    this.dataX.push(ptmp.X());
+    this.dataY.push(ptmp.Y());
+  }
+}
+
+cOut.updateDataArray = function() {
+  var i, len = n.Value();
+  var s = circ.getRadius()/Math.cos(Math.PI/n.Value());
+  this.dataX = [p0.X()+s];
+  this.dataY = [p0.Y()];
+  ptmp.setPositionDirectly(JXG.COORDS_BY_USER, [p0.X()+s,p0.Y()]);
+  for (i=0;i<len;i++) {
+    rot.applyOnce(ptmp);
+    this.dataX.push(ptmp.X());
+    this.dataY.push(ptmp.Y());
+  }
+}
+
+brd.update();
+var link = brd.create("text",[6,4,'Ported from - https://jsxgraph.org/wiki/index.php?title=Circle_approximation'],{strokeColor:"white",fontSize:18});
+link.setAttribute({fixed:true});
+</script>
+</html>
