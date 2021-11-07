@@ -1,42 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        
-        #jxgbox{
-            height: 700px;
-            width: 1470px;
-            margin-left: 20px;
-            margin-top: 15px;
-            background-color: black;
-        }
-    </style>
-    <title>Simulation</title>
-</head>
-<body>
-    <div id="jxgbox" class="jxgbox"></div>
-</body>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-
-    <!-- The loading of KaTeX is deferred to speed up page rendering -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-
-    <!-- To automatically render math in text elements, include the auto-render extension: -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>  
-	  
-
-<script type="text/javascript" charset="UTF-8"
- src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
-<!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script>
-    
-JXG.Options.text.useMathJax = true;
 
 var board = JXG.JSXGraph.initBoard('jxgbox',{
     axis:true,boundingbox: [-25, 30, 40, -10],
@@ -45,7 +6,7 @@ var board = JXG.JSXGraph.initBoard('jxgbox',{
 	showNavigation:false,
     
 });
-// board.suspendUpdate();
+board.suspendUpdate();
 
 xaxis = board.create('axis', [[0,0],[1,0]]);
 xaxis.removeAllTicks();
@@ -139,5 +100,3 @@ function check(){
 
 
 board.unsuspendUpdate();
-</script>
-</html>
