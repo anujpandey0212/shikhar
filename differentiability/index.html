@@ -63,6 +63,44 @@ yticks = brd.create('ticks',[yaxis, 5], {
     }
 }); 
 
+var p = [];
+p[0] = brd.create('point', [-1,0], {withLabel: false, size:2, color:'blue'});
+p[1] = brd.create('point', [-0.5,3], {withLabel: false, size:2, color:'blue'});
+p[2] = brd.create('point', [2,0.5], {withLabel: false, size:2, color:'blue'});
+p[3] = brd.create('point', [6, 3], {withLabel: false, size:2, color:'blue'});
+var pol = JXG.Math.Numerics.lagrangePolynomial(p);
+var graph = brd.create('functiongraph', [pol, -10, 10], {strokeWidth: 3, name:"f", withLabel: true});
 
+var x0 = brd.create('glider', [1, 0, brd.defaultAxes.x], {name: 'x_0', size:4,label:{color:"white",fontSize:19}});
+var fx0 = brd.create('point', [
+                function() { return x0.X(); }, 
+                function() { return pol(x0.X()); }
+          ], {name: '', color: 'grey', fixed: true, size:3});
+var x = brd.create('glider', [5, 0, brd.defaultAxes.x], {name: 'x', size:4});
+var fx = brd.create('point', [
+                function() { return x.X(); }, 
+                function() { return pol(x.X()); }
+          ], {name: '', color: 'grey', fixed: true, size:3});
+var line = brd.create('line',[fx0, fx],{strokeColor:'#ff0000',dash:2});
+
+var f1 = brd.create('point', [
+        function() { return x.X(); },
+        function() { return (fx.Y()-fx0.Y())/(fx.X()-fx0.X() + 0.0000001); }],
+        { size: 1, name: 'f_1', color: 'white', fixed: true, trace: true,label:{color:"white",fontSize:19}});
+    
+var txt = brd.create('text', [7, 4, function() { 
+        return '( ' + 
+               fx.Y().toFixed(2) + ' - (' + fx0.Y().toFixed(2) + 
+               ') ) / ( ' + 
+               fx.X().toFixed(2) + ' - (' + fx0.X().toFixed(2) +
+               ') ) = ' + ((fx.Y()-fx0.Y())/(fx.X()-fx0.X())).toFixed(3);
+    }],{strokeColor:"white",fontSize:18});
+    txt.setAttribute({fixed:true});
+
+brd.create('functiongraph',[JXG.Math.Numerics.D(pol)], {dash: 2, name:"f'", withLabel: true});
+var link=brd.create("text",[6,-4,'Ported from - https://jsxgraph.org/wiki/index.php?title=Differentiability'],{strokeColor:"white",fontSize:18});
+var heading=brd.create("text",[-7,4,'Differentiability'],{fontSize:28,strokeColor:"white"});
+heading.setAttribute({fixed:true});
+link.setAttribute({fixed:true});
 </script>
 </html>
