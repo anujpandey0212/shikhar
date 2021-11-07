@@ -75,5 +75,6 @@ var int = brd.create('integral',[[function(){return p[0].X();},function(){return
 var F = brd.create('point',[function(){return s.X();}, function(){return JXG.Math.Numerics.I([p[0].X(),s.X()],f);}],
 {trace:true,name:'F',fillColor:'white',strokeColor:'white',face:'[]',label:{color:"white"}});
 var link=brd.create("text",[0,-2,'Ported from - https://jsxgraph.org/wiki/index.php?title=Antiderivative'],{strokeColor:"white",fontSize:18});
+link.setAttribute({fixed:true});
 </script>
 </html>
