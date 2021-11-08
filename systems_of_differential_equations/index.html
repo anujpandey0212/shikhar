@@ -75,6 +75,67 @@ yticks = brd.create('ticks',[yaxis, 5], {
     }
 }); 
 
+var function_1=brd.create("text",[15,8,'<input type="text" class="form-control" id="odeinput1" value="y1+y2">']);
+var function_2=brd.create('text',[15,6.5,'<input type="text" class="form-control" id="odeinput2" value="y2+1">']);
+var function_1_text=brd.create("text",[22.5,8,'= f1(x,y1,y2)'],{strokeColor:"white",fontSize:19});
+var function_2_text=brd.create("text",[22.5,6.5,'= f2(x,y1,y2)'],{strokeColor:"white",fontSize:19});
+var button=brd.create("text",[27,7,'<input type=button value="ok" class="btn btn-primary" onclick="doIt()">'])
+function_1.setAttribute({fixed:true});
+function_2.setAttribute({fixed:true});
+function_1_text.setAttribute({fixed:true});
+function_2_text.setAttribute({fixed:true});
+button.setAttribute({fixed:true});
 
+var N = brd.create('slider',[[14,3],[27,3],[-15,10,15]], {name:'N',fillColor:"red" ,baseline: { strokeColor: 'blue'},
+  highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}});
+var P1 = brd.create('point',[1,-1], {name:'(x_0,c_1)',label:{color:"white",fontSize:15}});
+var line = brd.create('line',[function(){return -P1.X();},function(){return 1;},function(){return 0;}],{visible:false});
+var P2 = brd.create('glider',[1,-0.5,line], {name:'(x_0,c_2)',label:{color:"white",fontSize:15}});
+
+function doIt() {
+  var txt1 = document.getElementById("odeinput1").value;
+  var txt2 = document.getElementById("odeinput2").value;
+
+  var snip1 = brd.jc.snippet(txt1, true, 'x, y1, y2');
+  var snip2 = brd.jc.snippet(txt2, true, 'x, y1, y2');
+  f = function (x, yy) {
+      return [snip1(x, yy[0], yy[1]), snip2(x, yy[0], yy[1])];
+  }
+  brd.update();
+}
+
+function ode() {
+   return JXG.Math.Numerics.rungeKutta('heun', [P1.Y(),P2.Y()], [P1.X(), P1.X()+N.Value()], 200, f);
+}
+
+var g1 = brd.create('curve', [[0],[0]], {strokeColor:'red', strokeWidth:2, name:'y_1', withLabel:false});
+var g2 = brd.create('curve', [[0],[0]], {strokeColor:'blue', strokeWidth:2, name:'y_2', withLabel:false});
+g1.updateDataArray = function() {
+    var data = ode();
+    var h = N.Value()/200;
+    var i;
+
+    this.dataX = [];
+    this.dataY = [];
+    for(i=0; i<data.length; i++) {
+        this.dataX[i] = P1.X()+i*h;
+        this.dataY[i] = data[i][0];
+    }
+};
+g2.updateDataArray = function() {
+    var data = ode();
+    var h = N.Value()/200;
+    var i;
+
+    this.dataX = [];
+    this.dataY = [];
+    for(i=0; i<data.length; i++) {
+        this.dataX[i] = P2.X()+i*h;
+        this.dataY[i] = data[i][1];
+    }
+};
+doIt();
+var link=brd.create('text',[10,-5,'Ported from -https://jsxgraph.org/wiki/index.php?title=Systems_of_differential_equations'],{strokeColor:"white",fontSize:19});
+link.setAttribute({fixed:true});
 </script>
 </html>
