@@ -43,7 +43,7 @@ var brd;
 brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-8,5,10,-5], axis:true, showNavigation:false, showCopyright:false,keepAspectRatio:true});
 xaxis = brd.create('axis', [[0,0],[1,0]]);
 xaxis.removeAllTicks();
-xticks = brd.create('ticks',[xaxis, 5], {
+xticks = brd.create('ticks',[xaxis, 1], {
     drawLabels: true,
     strokeColor: '#F05454',
     label: {
@@ -54,7 +54,7 @@ xticks = brd.create('ticks',[xaxis, 5], {
 
 yaxis = brd.create('axis', [[0,0],[0,1]]);
 yaxis.removeAllTicks();
-yticks = brd.create('ticks',[yaxis, 5], {
+yticks = brd.create('ticks',[yaxis, 1], {
     drawLabels: true,
     strokeColor: '#F05454',
     label: {
