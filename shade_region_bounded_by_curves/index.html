@@ -51,7 +51,7 @@
 JXG.Options.text.useMathJax = true;
 
 var brd;
-brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-11,11,11,-11], axis:true, showNavigation:false, showCopyright:false,keepAspectRatio:true});
+brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-1, 2, 2, -1], axis:true, showNavigation:false, showCopyright:false,keepAspectRatio:true});
 // brd.suspendUpdate();
 xaxis = brd.create('axis', [[0,0],[1,0]]);
 xaxis.removeAllTicks();
@@ -76,5 +76,38 @@ yticks = brd.create('ticks',[yaxis, 5], {
 }); 
 
 
+
+
+// 1. step: compute intersection of 'sqrt(x^2-1)' and '0.707*x'
+var diff = x => Math.sqrt(x * x - 1) -  0.707 * x;
+var x_intersect = JXG.Math.Numerics.root(diff, 1.5);
+
+// 2. step: plot curves only up to the mutual intersections
+// We use JessieCode for the function terms
+var curve1 = brd.create('functiongraph', ['0', 0, 1]);
+var curve2 = brd.create('functiongraph', ['sqrt(x^2-1)', 1, x_intersect]);
+var curve3 = brd.create('functiongraph', ['0.707*x', 0, x_intersect]);
+
+// 3. step: plot a filled curve which starts at (0,0), contains all points of 'sqrt(x^2-1)'
+// and is closed by adding (0,0) at the end.
+var curve = brd.create('curve', [[], []], {strokeWidth:3, fillColor:'yellow', fillOpacity: 0.3});
+curve.updateDataArray = function() {
+  // Start with (0, 0)
+  this.dataX = [0];
+  this.dataY = [0];
+  
+   // Copy all points from curve2
+  this.dataX = this.dataX.concat( curve2.points.map( p => p.usrCoords[1] ) );
+  this.dataY = this.dataY.concat( curve2.points.map( p => p.usrCoords[2] ) );
+  
+  // Close the curve by adding (0,0)
+  this.dataX.push(0);
+  this.dataY.push(0);
+};
+brd.update();
+var theory=brd.create('text',[2.5,1,'Somewhere in the WWW the question was asked how to shade the region bounded by the following curves, where x≥0<br>:xxx↦↦↦x2−1−−−−−√0.707x0<br>Here is the solution:'],{strokeColor:"white",fontSize:19});
+var link=brd.create('text',[1.5,-0.5,'Ported from - https://jsxgraph.org/wiki/index.php?title=Shade_region_bounded_by_curves'],{strokeColor:"white",fontSize:19});
+link.setAttribute({fixed:true});
+theory.setAttribute({fixed:true});
 </script>
 </html>
