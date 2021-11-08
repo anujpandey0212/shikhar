@@ -51,7 +51,7 @@
 JXG.Options.text.useMathJax = true;
 
 var brd;
-brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-8, 4, 8, -4], axis:true, showNavigation:false, showCopyright:false,keepAspectRatio:true});
+brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-5,40,8,-5], axis:true, showNavigation:false, showCopyright:false});
 // brd.suspendUpdate();
 xaxis = brd.create('axis', [[0,0],[1,0]]);
 xaxis.removeAllTicks();
@@ -75,6 +75,26 @@ yticks = brd.create('ticks',[yaxis, 5], {
     }
 }); 
 
+var head=brd.create("text",[-4.7,30,'Reimenn Sum type : '],{strokeColor:"white",fontSize:19}).setAttribute({fixed:true});
+var sumtype=brd.create("text",[-3,30,'<select id="sumtype" class="form-select" aria-label="Default select example"><option value="left" selected>left</option><option value="right">right</option><option value="middle">middle</option><option value="trapezoidal">trapezoidal</option><option value="simpson">simpson</option><option value="lower">lower</option><option value="uper">uper</option></select>']).setAttribute({fixed:true});
+var s = brd.create('slider',[[-1,30],[2,30],[3,50,500]],{name:'n',snapWidth:1,fillColor:"red" ,baseline: { strokeColor: 'blue'},
+  highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}});
+var a = brd.create('slider',[[-1,20],[2,20],[-10,0,0]],{name:'start',snapWidth:1,fillColor:"red" ,baseline: { strokeColor: 'blue'},
+  highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}});
+var b = brd.create('slider',[[-1,10],[2,10],[0,6,10]],{name:'end',snapWidth:1,fillColor:"red" ,baseline: { strokeColor: 'blue'},
+  highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}});
+var f = function(x){ return x*x; };
+var plot = brd.create('functiongraph',[f,function(){return a.Value();}, function(){return b.Value();}]);
 
+var os = brd.create('riemannsum',[f, 
+    function(){ return s.Value();}, function(){ return document.getElementById('sumtype').value;},
+    function(){return a.Value();}, 
+    function(){return b.Value();}
+    ], 
+    {fillColor:'#ffff00', fillOpacity:0.3});
+
+brd.create('text',
+      [1,35,function(){ return 'Sum='+(JXG.Math.Numerics.riemannsum(f,s.Value(),document.getElementById('sumtype').value,a.Value(),b.Value())).toFixed(4); }],{strokeColor:"white",fontSize:19}).setAttribute({fixed:true});
+    brd.create("text",[-5,15,'Ported from - https://jsxgraph.org/wiki/index.php?title=Riemann_sum_III'],{strokeColor:"white",fontSize:19}).setAttribute({fixed:true});
 </script>
 </html>
