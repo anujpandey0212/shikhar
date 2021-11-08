@@ -74,16 +74,6 @@ yticks = brd.create('ticks',[yaxis, 1], {
         strokeColor: 'white'
     }
 }); 
-// b = JXG.JSXGraph.initBoard('jxgbox', {axis:true, boundingbox: [-15, 10, 15, -10]});
-brd.suspendUpdate();
-var n = brd.create('slider',[[-5,-2],[5,-2],[-5,1,5]],{name:'n',fillColor:"red" ,baseline: { strokeColor: 'blue'},
-  highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}});
-var m = brd.create('slider',[[1,-4],[10,-4],[1,1,10]],{name:'m',fillColor:"red" ,baseline: { strokeColor: 'blue'},
-  highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}});
-brd.create('functiongraph', [function(t){ return JXG.Math.pow(t,n.Value()/m.Value()); }],{strokeColor:'#ff0000'});
-brd.create('text',[-5, 3, function(){ return 'y=x<sup>'+(n.Value()/m.Value()).toFixed(3)+'</sup>';}],{strokeColor:"white",fontSize:19}).setAttribute({fixed:true});
-brd.unsuspendUpdate();
-brd.create("text",[-14,-7,'Ported from - https://jsxgraph.org/wiki/index.php?title=Power_functions'],{strokecolor:"white",fontSize:19}).setAttribute({fixed:true});
-brd.create("text",[-10,7,'Power functions'],{strokecolor:"white",fontSize:30}).setAttribute({fixed:true});
+
 </script>
 </html>
