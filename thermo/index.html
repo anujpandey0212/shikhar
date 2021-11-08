@@ -79,11 +79,11 @@ var w = brd.create('slider', [[2, 8], [5, 8], [-5, 5, 10]],{name:"W",fillColor:"
   var t = brd.create('slider', [[2, 6.5], [5, 6.5], [100, 500, 2000]],{name:"T",fillColor:"red" ,baseline: { strokeColor: 'blue'},
   highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}});
 var graph = brd.create('functiongraph',
-                       [function(x){ return -8.341*((x*JXG.Math.log(x))+(1-x));}],{strokeWidth:3});
+                       [function(x){ return -8.341*((x*JXG.Math.log(x))+(1-x));}],{strokeWidth:3,name:"S(x)",label:{color:"white",fontSize:19}});
 var graph2 = brd.create('functiongraph',
-                       [function(x){ return w.Value()*x*(1-x);}],{strokeWidth:3,strokeColor:"red"});
+                       [function(x){ return w.Value()*x*(1-x);}],{strokeWidth:3,strokeColor:"red",name:"H(x)",label:{color:"white",fontSize:19}});
 var graph3 = brd.create('functiongraph',
-                       [function(x){ return (w.Value()*x*(1-x))-t.Value()*(-8.341*((x*JXG.Math.log(x))+(1-x)));}],{strokeWidth:3,strokeColor:"yellow"});
+                       [function(x){ return (w.Value()*x*(1-x))-t.Value()*(-8.341*((x*JXG.Math.log(x))+(1-x)));}],{strokeWidth:3,strokeColor:"yellow",name:"G(x)",label:{color:"white",fontSize:19}});
            
 </script>
 </html>
