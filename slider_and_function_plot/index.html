@@ -76,6 +76,18 @@ yticks = brd.create('ticks',[yaxis, 5], {
 }); 
 
 
+    a = brd.create('slider',[[16,9],[29,9],[-5,1,5]], {name:'a',fillColor:"red" ,baseline: { strokeColor: 'blue'},
+  highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}}),
+    b = brd.create('slider',[[16,8],[29,8],[-5,0,5]], {name:'b',fillColor:"red" ,baseline: { strokeColor: 'blue'},
+  highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}}),
+    c = brd.create('slider',[[16,7],[29,7],[-5,0,5]], {name:'c',fillColor:"red" ,baseline: { strokeColor: 'blue'},
+  highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}}),
+
+    f = brd.create('functiongraph',[function(x){
+            return a.Value()*x*x + b.Value()*x + c.Value();
+        }],{strokeWidth:3});
+
+var link = brd.create("text",[10,-5,'Ported from - https://jsxgraph.org/wiki/index.php?title=Slider_and_function_plot'],{strokeColor:"white",fontSize:19});
 
 </script>
 </html>
