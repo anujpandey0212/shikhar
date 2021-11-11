@@ -51,7 +51,7 @@
 JXG.Options.text.useMathJax = true;
 
 var brd;
-brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-5.5, 7.5, 9.5, -2.5], axis:true, showNavigation:false, showCopyright:false});
+brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-3, 3, 3, -3], axis:true, showNavigation:false, showCopyright:false});
 // brd.suspendUpdate();
 xaxis = brd.create('axis', [[0,0],[1,0]]);
 xaxis.removeAllTicks();
@@ -75,6 +75,7 @@ yticks = brd.create('ticks',[yaxis, 1], {
     }
 }); 
 
+// var brd = JXG.JSXGraph.initBoard('box', {axis:true, boundingbox: [-3, 3, 3, -3]});
 
 </script>
 </html>

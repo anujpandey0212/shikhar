@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        
+        #jxgbox{
+            height: 700px;
+            width: 1470px;
+            margin-left: 20px;
+            margin-top: 15px;
+            background-color: black;
+        }
+    </style>
+    <title>Simulation</title>
+</head>
+<body>
+    <form name="input" id="box">
+        <table style="background-color:background; padding:5px; margin:2px">
+         <tr style="color:blue">
+           <th>f(x)</th>
+           <td>sin(x)</td>
+           <td>cos(x)</td>
+           <td>tan(x)</td>
+           <td>x<sup>2</sup></td>
+           <td>sinh(x)</td>
+           <td>exp(x)</td>
+         </tr>
+         <tr>
+           <td>&nbsp;</td>
+           <td><input type="radio" name="f" value="sin" checked onChange="change(this)"></td>
+           <td><input type="radio" name="f" value="cos"         onChange="change(this)"></td>
+           <td><input type="radio" name="f" value="tan"         onChange="change(this)"></td>
+           <td><input type="radio" name="f" value="square"      onChange="change(this)"></td>
+           <td><input type="radio" name="f" value="sinh"        onChange="change(this)"></td>
+           <td><input type="radio" name="f" value="exp"         onChange="change(this)"></td>
+         </tr>
+         <tr style="color:green">
+           <th>g(x)</th>
+           <td>arcsin(x)</td>
+           <td>arccos(x)</td>
+           <td>arctan(x)</td>
+           <td>&radic;(x)</td>
+           <td>arcsinh(x)</td>
+           <td>log(x)</td>
+         </tr>
+         <tr>
+           <td>&nbsp;</td>
+           <td><input type="radio" name="g" value="asin" checked onChange="change(this)"></td>
+           <td><input type="radio" name="g" value="acos"         onChange="change(this)"></td>
+           <td><input type="radio" name="g" value="atan"         onChange="change(this)"></td>
+           <td><input type="radio" name="g" value="sqrt"         onChange="change(this)"></td>
+           <td><input type="radio" name="g" value="asinh"        onChange="change(this)"></td>
+           <td><input type="radio" name="g" value="log"          onChange="change(this)"></td>
+         </tr>
+         <tr style="color:red">
+           <th>Composition</th>
+           <td>f(g(x))</td>
+           <td>g(f(x))</td>
+           <td>&nbsp;</td>
+           <td>&nbsp;</td>
+           <td>&nbsp;</td>
+           <td>&nbsp;</td>
+         </tr>
+         <tr>
+           <td>&nbsp;</td>
+           <td><input type="radio" name="fg" value="fg" checked onChange="comp(this)"></td>
+           <td><input type="radio" name="fg" value="gf"         onChange="comp(this)"></td>
+           <td>&nbsp;</td>
+           <td>&nbsp;</td>
+           <td>&nbsp;</td>
+           <td>&nbsp;</td>
+         </tr>
+        </table>
+        </form>
+    <div id="jxgbox" class="jxgbox"></div>
+</body>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>  
+	  
+        <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+      </script>
+<script type="text/javascript" charset="UTF-8"
+ src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+<script>
+    
+JXG.Options.text.useMathJax = true;
+
+var brd;
+brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-3, 3, 3, -3], axis:true, showNavigation:false, showCopyright:false});
+// brd.suspendUpdate();
+xaxis = brd.create('axis', [[0,0],[1,0]]);
+xaxis.removeAllTicks();
+xticks = brd.create('ticks',[xaxis, 1], {
+    drawLabels: true,
+    strokeColor: '#F05454',
+    label: {
+        offset: [-4, -15],
+        strokeColor: 'white'
+    }
+});   
+
+yaxis = brd.create('axis', [[0,0],[0,1]]);
+yaxis.removeAllTicks();
+yticks = brd.create('ticks',[yaxis, 1], {
+    drawLabels: true,
+    strokeColor: '#F05454',
+    label: {
+        // offset: [0, -15],
+        strokeColor: 'white'
+    }
+}); 
+
+// var brd = JXG.JSXGraph.initBoard('box', {axis:true, boundingbox: [-3, 3, 3, -3]});
+var f, g, fg;
+
+var change = function(obj) {
+ var t = obj.value; 
+ if (t=='sin')           { f = function(x) { return Math.sin(x); } 
+ } else if (t=='cos')    { f = function(x) { return Math.cos(x); }
+ } else if (t=='tan')    { f = function(x) { return Math.tan(x); }
+ } else if (t=='square') { f = function(x) { return x*x; }
+ } else if (t=='sinh')   { f = function(x) { return brd.sinh(x); }
+ } else if (t=='exp')    { f = function(x) { return Math.exp(x); }
+
+ } else if (t=='asin')   { g = function(x) { return Math.asin(x); }
+ } else if (t=='acos')   { g = function(x) { return Math.acos(x); }
+ } else if (t=='atan')   { g = function(x) { return Math.atan(x); }
+ } else if (t=='sqrt')   { g = function(x) { return Math.sqrt(x); }
+ } else if (t=='asinh')  { g = function(x) { return Math.log(x+Math.sqrt(1+x*x)); }
+ } else if (t=='log')    { g = function(x) { return Math.log(x); }
+ }
+ plotf.Y = f; plotf.updateCurve();
+ plotg.Y = g; plotg.updateCurve();
+ brd.update();
+}
+
+var comp = function(obj) {
+ var t = obj.value; 
+ if (t=='fg')           { fg = function(x) { return f(g(x)); } 
+ } else if (t=='gf')    { fg = function(x) { return g(f(x)); }
+ }
+ plotfg.Y = fg; plotfg.updateCurve();
+ brd.update();
+}
+
+f = function(x) { return Math.sin(x); }
+g = function(x) { return Math.asin(x); }
+fg = function(x) { return Math.sin(Math.asin(x)); }
+
+plotf = brd.create('functiongraph',[f,-2,2],{dash:2, strokeColor:'blue',strokeWidth:3});
+plotg = brd.create('functiongraph',[g,-2,2],{dash:3, strokeColor:'green',strokeWidth:3});
+plotfg = brd.create('functiongraph',[fg,-2,2],{strokeColor:'red',strokeWidth:3});
+brd.create('text',[0.2,-2,'Ported from - https://jsxgraph.org/wiki/index.php?title=Inverse_Composition_Rules'],{fontSize:19,strokeColor:"white"}).setAttribute({fixed:true});
+</script>
+</html>
