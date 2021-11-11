@@ -75,7 +75,35 @@ yticks = brd.create('ticks',[yaxis, 1], {
     }
 }); 
 
+// var brd = JXG.JSXGraph.initBoard('box', {axis:true, boundingbox: [-3, 3, 3, -3]});
 
+brd.suspendUpdate();
+var s = brd.create('slider', [[0.75,-2],[4.5,-2],[0,0,10]], {name:'S',snapWidth:1,fillColor:"red" ,baseline: { strokeColor: 'blue'},
+  highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}});
+brd.create('functiongraph', [
+    function(t) {
+        var val = 0, sv = s.Value()+1,
+        k = 1;
+        for(var i = 0; i < sv; i++) {
+            val = val + Math.sin(2*Math.PI*k*t)/k;
+            k += 1;
+        }
+        return val+2;
+    }, -10, 10], {strokeColor: "#bb0000"});
 
+brd.create('functiongraph', [
+    function(t) {
+        var val = 0, sv = s.Value()+1,
+            k = 1;
+        for(var i = 0; i < sv; i++) {
+            val = val + Math.sin(2*Math.PI*(2*k-1)*t)/(2*k-1);
+            k += 1;
+        }
+        return val-2;
+    }, -10, 10], {strokeColor: "#cc5520"});
+
+brd.unsuspendUpdate();
+brd.create("text",[0.4,-4,'Ported from - https://jsxgraph.org/wiki/index.php?title=Harmonic_Waves'],{strokeColor:"white",fontSize:19}).setAttribute({fixed:true});
+brd.create("text",[-5,4,'Harmonic Waves'],{strokeColor:"white",fontSize:30}).setAttribute({fixed:true});
 </script>
 </html>
