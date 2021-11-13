@@ -69,10 +69,10 @@ var f = function(x) {
          return x+1;
        }
       };
- var graph = brd.create('functiongraph', [f], {strokeColor:'#141bde',strokeWidth:3});
+ var graph = brd.create('functiongraph', [f], {strokeColor:'#e8662a',strokeWidth:4});
 
  var s = brd.create('slider', [[0,-1],[4,-1],[0,1,1]],{name:'&delta;',strokeColor:"white",label:{color:"white"},fillColor:"white",baseline:{ strokeColor: 'red'},
-  highline: { strokeColor: 'orange'}});
+  highline: { strokeColor: 'Blue'}});
 
  var x1 = brd.create('glider', [-2,0,brd.defaultAxes.x],{name:'a'});
  brd.suspendUpdate();
@@ -90,11 +90,10 @@ var f = function(x) {
  var h3 = brd.create('curve', [function(t){return t},function(t){return y3.Y();}], {strokeColor:'gray',dash:2,strokeWidth:1});
 
  var txt = brd.create('text', [4.2, -1.5, function() {
-            return '&epsilon; = ' + Math.max(Math.abs(y2.Y() - y1.Y()), Math.abs(y1.Y() - y3.Y())).toFixed(5); 
-           }], {strokeColor: 'white',fontSize:15});
+            return '\\(&epsilon; = \\)' + Math.max(Math.abs(y2.Y() - y1.Y()), Math.abs(y1.Y() - y3.Y())).toFixed(5); 
+           }], {strokeColor: 'white',fontSize:19});
            brd.unsuspendUpdate();
            txt.setAttribute({fixed:true});
-var link = brd.create('text',[0,-2,'Ported from - https://jsxgraph.org/wiki/index.php?title=Continuous_functions'],{strokeColor:"white",fontsize:18});
-link.setAttribute({fixed:true});
+//Ported from - https://jsxgraph.org/wiki/index.php?title=Continuous_functions
 </script>
 </html>

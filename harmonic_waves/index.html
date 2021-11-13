@@ -103,7 +103,7 @@ brd.create('functiongraph', [
     }, -10, 10], {strokeColor: "#cc5520"});
 
 brd.unsuspendUpdate();
-brd.create("text",[0.4,-4,'Ported from - https://jsxgraph.org/wiki/index.php?title=Harmonic_Waves'],{strokeColor:"white",fontSize:19}).setAttribute({fixed:true});
-brd.create("text",[-5,4,'Harmonic Waves'],{strokeColor:"white",fontSize:30}).setAttribute({fixed:true});
+brd.create("text",[-5,4,function(){return '\\(Harmonic Waves\\)'}],{strokeColor:"white",fontSize:30}).setAttribute({fixed:true});
+//Ported from - https://jsxgraph.org/wiki/index.php?title=Harmonic_Waves
 </script>
 </html>

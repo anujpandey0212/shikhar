@@ -69,17 +69,18 @@ var graph = brd.create('functiongraph', [
          function(x) {
             var a = Math.log(A.Y()) / A.X();
             return Math.exp(a * x);
-         }]);
+         }],{strokecolor:"orange",strokeWidth:4});
            
 var txt = brd.create('text', [-5, 3, function () {
-           return "a = " + (Math.log(A.Y()) / A.X()).toFixed(2);
+           return "\\(a = \\)" + (Math.log(A.Y()) / A.X()).toFixed(2);
           }], {fontSize: 19,strokeColor:"white"});
 
 var button=brd.create('text',[-5,2,'<input type="button" class="btn btn-primary" onClick="alert((Math.log(A.Y()) / A.X()).toFixed(2))" value="Show value of a" />']);
-var link = brd.create("text",[0,-3,'Ported from - https://jsxgraph.org/wiki/index.php?title=Draggable_exponential_function'],{strokeColor:"white",fontSize:19});
-var theory=brd.create('text',[5.5,2.8,'Plot the function<br>y=eax<br>where the parameter a<br>is determined by the Point A=(\\(X_A\\),\\(Y_A\\)).<br>That means,a=log(yA)/xA'],{strokeColor:"white",fontsize:"19"});
+
+var theory=brd.create('text',[5.5,2.8,function(){return 'Plot the function<br>y=eax<br>where the parameter a<br>is determined by the Point A=(\\(X_A\\),\\(Y_A\\)).<br>That means,a=log(yA)/xA'}],{strokeColor:"white",fontsize:"19"});
 button.setAttribute({fixed:true});
-link.setAttribute({fixed:true});
+
 theory.setAttribute({fixed:true});
+//Ported from - https://jsxgraph.org/wiki/index.php?title=Draggable_exponential_function
 </script>
 </html>

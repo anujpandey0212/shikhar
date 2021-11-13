@@ -86,7 +86,7 @@ function ode() {
    return JXG.Math.Numerics.rungeKutta('heun', [P.Y()], [P.X(), P.X()+N.Value()], 200, f);
 }
 
-var g = brd.create('curve', [[0],[0]], {strokeColor:'red', strokeWidth:2});
+var g = brd.create('curve', [[0],[0]], {strokeColor:'orange', strokeWidth:4});
 g.updateDataArray = function() {
     var data = ode();
     var h = N.Value()/200;
@@ -99,7 +99,7 @@ g.updateDataArray = function() {
     }
 };
 doIt();
-var link=brd.create("text",[-7,-2,'Ported from - https://jsxgraph.org/wiki/index.php?title=Differential_equations'],{strokeColor:"white",fontSize:19});
-link.setAttribute({fixed:true});
+brd.create('text',[-7,4,function(){return '\\(Differential Equations\\)';}],{strokeColor:"white",fontsize:30});
+//Ported from - https://jsxgraph.org/wiki/index.php?title=Differential_equations
 </script>
 </html>

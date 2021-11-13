@@ -68,13 +68,15 @@ p.push(brd.create('point',[0,(Math.random()-0.2)*5],{name:''}));
 p.push(brd.create('point',[2.2,(Math.random()-0.2)*5],{name:''}));
 
 var f = JXG.Math.Numerics.lagrangePolynomial(p);
-var plot = brd.create('functiongraph',[f,-3,3],{strokeColor:"#eb7644"});
+var plot = brd.create('functiongraph',[f,-3,3],{strokeColor:"#eb7644",strokeWidth:3});
 var s = brd.create('glider',[-2,0,plot],{name:'drag me',label:{color:"white",fontSize:20}});
 var int = brd.create('integral',[[function(){return p[0].X();},function(){return s.X();}],plot],{fillOpacity:0.2,fillColor:"#5b96f5",label:{color:"white"}});
 
 var F = brd.create('point',[function(){return s.X();}, function(){return JXG.Math.Numerics.I([p[0].X(),s.X()],f);}],
 {trace:true,name:'F',fillColor:'blue',strokeColor:'blue',face:'[]',label:{color:"white"}});
-var link=brd.create("text",[0,-2,'Ported from - https://jsxgraph.org/wiki/index.php?title=Antiderivative'],{strokeColor:"white",fontSize:18});
-link.setAttribute({fixed:true});
+brd.create("text",[6,4,function(){
+    return "\\(Anti Derivative\\)";
+}],{strokeColor:"white",fontSize:30})
+// Ported from - https://jsxgraph.org/wiki/index.php?title=Antiderivative
 </script>
 </html>

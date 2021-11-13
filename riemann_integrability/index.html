@@ -75,7 +75,7 @@ yticks = brd.create('ticks',[yaxis, 1], {
     }
 }); 
 
-brd.create("text",[1,9,'Riemann integrability'],{strokeColor:"white",fontSize:30}).setAttribute({fixed:true});
+brd.create("text",[1,9,function(){return '\\(Riemann integrability\\)'}],{strokeColor:"white",fontSize:30}).setAttribute({fixed:true});
 var p = [];
 p.push(brd.create('point',[-2.7,(Math.random()-0.2)*5]));
 p.push(brd.create('point',[-1,(Math.random()-0.2)*5]));
@@ -91,7 +91,7 @@ var plot = brd.create('functiongraph',[f,-3,3],{strokeWidth:4});
 var up = brd.create('riemannsum',[f,function(){ return n.Value();}, 'upper',-3,3],{fillColor:'#ff0000', fillOpacity:0.3});
 var lo = brd.create('riemannsum',[f,function(){ return n.Value();}, 'lower',-3,3],{fillColor:'#ffff00', fillOpacity:0.3});
  
-brd.create('text',[-2,-2,function(){ return 'Diff='+(JXG.Math.Numerics.riemannsum(f,n.Value(),'upper',-3,3)-JXG.Math.Numerics.riemannsum(f,n.Value(),'lower',-3,3)).toFixed(4); }],{strokeColor:"white",fontSize:19});
-brd.create('text',[-3,9,'Ported from - https://jsxgraph.org/wiki/index.php?title=Riemann_integrability'],{strokeColor:"white",fontSize:19}).setAttribute({fixed:true});
+brd.create('text',[-2,-2,function(){ return '\\(Diff=\\)'+(JXG.Math.Numerics.riemannsum(f,n.Value(),'upper',-3,3)-JXG.Math.Numerics.riemannsum(f,n.Value(),'lower',-3,3)).toFixed(4); }],{strokeColor:"white",fontSize:19});
+//Ported from - https://jsxgraph.org/wiki/index.php?title=Riemann_integrability
 </script>
 </html>

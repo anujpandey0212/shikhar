@@ -79,15 +79,15 @@ var p = [];
 p[0] = brd.create('point', [-1,2], {size:4});
 p[1] = brd.create('point', [3,-1], {size:4});
 var f = JXG.Math.Numerics.lagrangePolynomial(p);
-var graph = brd.create('functiongraph', [f,-10, 10], {strokeWidth:3});
-var d1 = brd.create('functiongraph', [JXG.Math.Numerics.D(f), -10, 10], {dash:1});
-var d2 = brd.create('functiongraph', [JXG.Math.Numerics.D(JXG.Math.Numerics.D(f)), -10, 10], {dash:2});
+var graph = brd.create('functiongraph', [f,-10, 10], {strokeWidth:3,strokecolor:"orange"});
+var d1 = brd.create('functiongraph', [JXG.Math.Numerics.D(f), -10, 10], {dash:1,strokecolor:"orange"});
+var d2 = brd.create('functiongraph', [JXG.Math.Numerics.D(JXG.Math.Numerics.D(f)), -10, 10], {dash:2,strokecolor:"red"});
 
 function addPoint() {
     p.push(brd.create('point',[(Math.random()-0.5)*10,(Math.random()-0.5)*3],{size:4}));
     brd.update();
 }
-brd.create("text",[-4,8,'Lagrange interpolation'],{fontsize:30,strokeColor:"white"}).setAttribute({fixed:true});
-brd.create('text',[0.2,-3,'https://jsxgraph.org/wiki/index.php?title=Lagrange_interpolation'],{fontsize:19,strokeColor:"white"}).setAttribute({fixed:true});
+brd.create("text",[-4,8,function(){return '\\(Lagrange interpolation\\)'}],{fontsize:30,strokeColor:"white"}).setAttribute({fixed:true});
+// Ported From - https://jsxgraph.org/wiki/index.php?title=Lagrange_interpolation
 </script>
 </html>

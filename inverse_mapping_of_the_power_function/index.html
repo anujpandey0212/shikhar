@@ -80,10 +80,10 @@ brd.suspendUpdate();
 var n = brd.create('slider',[[-5,-1],[5,-1],[-5,1,5]],{name:'n',fillColor:"red" ,baseline: { strokeColor: 'blue'},
   highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}});
 brd.create('functiongraph', [function(t){ return t}],{strokeColor:'white',dash:1,strokeWidth:1});
-brd.create('functiongraph', [function(t){ return JXG.Math.pow(t,n.Value()); },0.001,8],{strokeColor:'#ff0000'});
-brd.create('functiongraph', [function(t){ return JXG.Math.pow(t,1/n.Value()); },0.001,8],{strokeColor:'#ff0000',dash:2});
+brd.create('functiongraph', [function(t){ return JXG.Math.pow(t,n.Value()); },0.001,8],{strokeColor:'orange',strokewidth:4});
+brd.create('functiongraph', [function(t){ return JXG.Math.pow(t,1/n.Value()); },0.001,8],{strokeColor:'orange',dash:2,strokewidth:4});
 brd.unsuspendUpdate();
-brd.create('text',[-5,6,'Inverse mapping of the power function'],{strokecolor:"white",fontSize:25}).setAttribute({fixed:true});
-brd.create('text',[0.4,-2,'https://jsxgraph.org/wiki/index.php?title=Inverse_mapping_of_the_power_function'],{strokecolor:"white",fontSize:19}).setAttribute({fixed:true});
+brd.create('text',[-5,6,function(){return '\\(Inverse mapping of the power function\\)'}],{strokecolor:"white",fontSize:25}).setAttribute({fixed:true});
+// Ported from - https://jsxgraph.org/wiki/index.php?title=Inverse_mapping_of_the_power_function
 </script>
 </html>

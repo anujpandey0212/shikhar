@@ -77,9 +77,9 @@ yticks = brd.create('ticks',[yaxis, 1], {
 // var brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox:[-7,3,8,-3]});
 var axx = brd.create('axis',[[0,0],[1,0]]);
 var axy = brd.create('axis',[[0,0],[0,1]]);
-brd.create("text",[-5,2,'Power Series for sine'],{strokeColor:"white",fontSize:30}).setAttribute({fixed:true});
+brd.create("text",[-5,2,function(){return '\\(Power Series for sine\\)'}],{strokeColor:"white",fontSize:30}).setAttribute({fixed:true});
 brd.suspendUpdate();
-brd.create('functiongraph', [function(t){ return Math.sin(t); },-10, 10],{strokeColor: "blue"});
+brd.create('functiongraph', [function(t){ return Math.sin(t); },-10, 10],{strokeColor: "Orange",strokeWidth:3});
 var s = brd.create('slider', [[0.75,-1.5],[5.75,-1.5],[0,0,10]], {name:'S',snapWidth:1,fillColor:"red" ,baseline: { strokeColor: 'blue'},
   highline: { strokeColor: 'red'},label:{color:"white" ,fontSize:19}});
 var x0 = brd.create('glider', [0,0,axx], {name:'x_0'});
@@ -100,8 +100,8 @@ brd.create('functiongraph', [
 		}
 		return val;
 	},
--10, 10], {strokeColor: "#bb0000"});
+-10, 10], {strokeColor: "#bb0000",strokeWidth:3});
 brd.unsuspendUpdate();
-brd.create("text",[-6.8,-2,'Ported from - https://jsxgraph.org/wiki/index.php?title=Power_Series_for_sine'],{strokeColor:"white",fontSize:19}).setAttribute({fixed:true});
+//Ported from -https://jsxgraph.org/wiki/index.php?title=Power_Series_for_sine
 </script>
 </html>

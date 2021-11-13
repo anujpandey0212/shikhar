@@ -77,9 +77,9 @@ yticks = brd.create('ticks',[yaxis, 1], {
 
 var function_1=brd.create("text",[15,8,'<input type="text" class="form-control" id="odeinput1" value="y1+y2">']);
 var function_2=brd.create('text',[15,6.5,'<input type="text" class="form-control" id="odeinput2" value="y2+1">']);
-var function_1_text=brd.create("text",[22.5,8,'= f1(x,y1,y2)'],{strokeColor:"white",fontSize:19});
-var function_2_text=brd.create("text",[22.5,6.5,'= f2(x,y1,y2)'],{strokeColor:"white",fontSize:19});
-var button=brd.create("text",[27,7,'<input type=button value="ok" class="btn btn-primary" onclick="doIt()">'])
+var function_1_text=brd.create("text",[22.5,8,function(){return '\\(= f1(x,y1,y2)\\)';}],{strokeColor:"white",fontSize:19});
+var function_2_text=brd.create("text",[22.5,6.5,function(){return '\\(= f2(x,y1,y2)\\)';}],{strokeColor:"white",fontSize:19});
+var button=brd.create("text",[27.8,7,'<input type=button value="ok" class="btn btn-primary" onclick="doIt()">'])
 function_1.setAttribute({fixed:true});
 function_2.setAttribute({fixed:true});
 function_1_text.setAttribute({fixed:true});
@@ -108,8 +108,8 @@ function ode() {
    return JXG.Math.Numerics.rungeKutta('heun', [P1.Y(),P2.Y()], [P1.X(), P1.X()+N.Value()], 200, f);
 }
 
-var g1 = brd.create('curve', [[0],[0]], {strokeColor:'red', strokeWidth:2, name:'y_1', withLabel:false});
-var g2 = brd.create('curve', [[0],[0]], {strokeColor:'blue', strokeWidth:2, name:'y_2', withLabel:false});
+var g1 = brd.create('curve', [[0],[0]], {strokeColor:'red', strokeWidth:3, name:'y_1', withLabel:false});
+var g2 = brd.create('curve', [[0],[0]], {strokeColor:'orange', strokeWidth:3, name:'y_2', withLabel:false});
 g1.updateDataArray = function() {
     var data = ode();
     var h = N.Value()/200;
@@ -135,7 +135,6 @@ g2.updateDataArray = function() {
     }
 };
 doIt();
-var link=brd.create('text',[10,-5,'Ported from -https://jsxgraph.org/wiki/index.php?title=Systems_of_differential_equations'],{strokeColor:"white",fontSize:19});
-link.setAttribute({fixed:true});
+//Ported from -https://jsxgraph.org/wiki/index.php?title=Systems_of_differential_equations
 </script>
 </html>

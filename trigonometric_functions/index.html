@@ -131,6 +131,8 @@ brd.create('text',[
         function(){return (p0.Y()+p5.Y())*0.5;},
         'sec'],{strokeColor:"white",fontSize:15});
 
-var theory=brd.create("text",[4,1.5,'\tan x = \frac{\sin x}{\cos x}'],{strokeColor:"white",fontSize:19});
+var theory=brd.create("text",[4,1.5,function(){
+    return  ' \\[ $\sum_{i=0}^n i^2 = \f {(n^2+n)(2n+1)}{6}$ \\]  '
+}],{strokeColor:"white",fontSize:19});
 </script>
 </html>

@@ -74,7 +74,7 @@ yticks = brd.create('ticks',[yaxis, 1], {
         strokeColor: 'white'
     }
 }); 
-var head=brd.create("text",[-7.5,3,'Reimenn Sum type : '],{strokeColor:"white",fontSize:19});
+var head=brd.create("text",[-7.5,3,function(){return '\\(Reimenn Sum type : \\)';}],{strokeColor:"white",fontSize:19});
 var sumtype=brd.create("text",[-5,3,'<select id="sumtype" class="form-select" aria-label="Default select example"><option value="left" selected>left</option><option value="right">right</option><option value="middle">middle</option><option value="trapezoidal">trapezoidal</option><option value="simpson">simpson</option><option value="lower">lower</option><option value="uper">uper</option></select>']);
 sumtype.setAttribute({fixed:true});
 head.setAttribute({fixed:true});
@@ -95,8 +95,9 @@ var os = brd.create('riemannsum',[f,
     ], 
     {fillColor:'#ffff00', fillOpacity:0.3});
 
-brd.create('text',[-6,-3,function(){ return 'Sum='+(JXG.Math.Numerics.riemannsum(f,s.Value(),document.getElementById('sumtype').value,a.Value(),b.Value())).toFixed(4); }],{strokecolor:"white",fontSize:19}).setAttribute({fixed:true});
+brd.create('text',[-6,-3,function(){ return '\\(Sum=\\)'+(JXG.Math.Numerics.riemannsum(f,s.Value(),document.getElementById('sumtype').value,a.Value(),b.Value())).toFixed(4); }],{strokecolor:"white",fontSize:19}).setAttribute({fixed:true});
 
-var link=brd.create('text',[0,-2,'Ported from - https://jsxgraph.org/wiki/index.php?title=Riemann_sums'],{strokeColor:"white",fontsize:19});
+
+//Ported from - https://jsxgraph.org/wiki/index.php?title=Riemann_sums
 </script>
 </html>

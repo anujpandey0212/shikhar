@@ -73,15 +73,15 @@ var circ = brd.create('circle',[p0,p1],{fillColor:'#fefd4c',highlightFillColor:'
 var cIn = brd.create('curve',[[0,1,2],[0,1,2]],{fillColor:'#d769a3',highlightFillColor:'#d769a3',fillOpacity:1,highlightFillOpacity:1,strokeColor:'black',highlightStrokeColor:'black'});
 
 var tCirc = brd.create('text',[-5,-3.5,function(){
-    return 'Area of the circle = ' + (0.0625*circ.getRadius()*circ.getRadius()*Math.PI).toFixed(5);
+    return '\\(Area of the circle = \\)' + (0.0625*circ.getRadius()*circ.getRadius()*Math.PI).toFixed(5);
   }],{fontSize:20,strokeColor:"white"});
   tCirc.setAttribute({fixed:true});
 var tIn = brd.create('text',[-5,-4.0,function(){
-    return 'Area of the inscribed ' +n.Value().toFixed(0)+ '-polygon = ' + (0.0625*n.Value()*circ.getRadius()*circ.getRadius()*Math.sin(Math.PI/n.Value())).toFixed(5);
+    return '\\(Area of the inscribed \\)' +n.Value().toFixed(0)+ '\\(-polygon = \\)' + (0.0625*n.Value()*circ.getRadius()*circ.getRadius()*Math.sin(Math.PI/n.Value())).toFixed(5);
   }],{fontSize:20,strokeColor:"white"});
   tIn.setAttribute({fixed:true});
 var tOut = brd.create('text',[-5,-4.5,function(){
-    return 'Area of the circumscribed  ' +n.Value().toFixed(0)+ '-polygon = ' + (0.0625*n.Value()*circ.getRadius()*circ.getRadius()*Math.tan(Math.PI/n.Value())).toFixed(5);
+    return '\\(Area of the circumscribed  \\)' +n.Value().toFixed(0)+ '\\(-polygon = \\)' + (0.0625*n.Value()*circ.getRadius()*circ.getRadius()*Math.tan(Math.PI/n.Value())).toFixed(5);
   }],{fontSize:20,strokeColor:"white"});
   tOut.setAttribute({fixed:true});
 
@@ -112,7 +112,7 @@ cOut.updateDataArray = function() {
 }
 
 brd.update();
-var link = brd.create("text",[6,4,'Ported from - https://jsxgraph.org/wiki/index.php?title=Circle_approximation'],{strokeColor:"white",fontSize:18});
-link.setAttribute({fixed:true});
+brd.create("text",[6,4,function(){return '\\(Arc Approximation\\)';}],{strokeColor:"white",fontSize:30})
+//Ported from - https://jsxgraph.org/wiki/index.php?title=Circle_approximation
 </script>
 </html>
